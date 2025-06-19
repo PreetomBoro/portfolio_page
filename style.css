@@ -1,0 +1,427 @@
+/* Basic Resets & Variables */
+:root {
+    /* Dark Mode Defaults */
+    --background-color: #121212; /* Very dark gray */
+    --text-color: #e0e0e0;       /* Light gray */
+    --heading-color: #ffffff;    /* White */
+    --link-color: #bb86fc;       /* Purple-ish for links */
+    --border-color: #333333;     /* Darker gray for borders */
+    --container-bg: #1e1e1e;     /* Slightly lighter dark for containers */
+    /* NEW: Add primary colors for buttons and secondary background if not already defined */
+    --primary-color: #03dac6; /* Teal */
+    --primary-color-hover: #018786; /* Darker Teal */
+    --button-text-color: #000000; /* Black for button text */
+    --secondary-background-color: #2c2c2c; /* This variable is still defined for consistency */
+    --shadow-small: 0 4px 8px rgba(0, 0, 0, 0.2); /* Small shadow for elements */
+}
+
+/* Optional: Light Mode Override (for a toggle later) */
+body.light-mode {
+    --background-color: #ffffff;
+    --text-color: #333333;
+    --heading-color: #1a1a1a;
+    --link-color: #007bff;
+    --border-color: #cccccc;
+    --container-bg: #f9f9f9;
+    --primary-color: #007bff; /* Blue */
+    --primary-color-hover: #0056b3; /* Darker Blue */
+    --button-text-color: #ffffff; /* White for button text */
+    --secondary-background-color: #f0f0f0; /* This variable is still defined for consistency */
+    --shadow-small: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+body {
+    font-family: 'Inter', sans-serif; /* Your chosen font */
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0; /* Remove default body margin */
+    line-height: 1.6;
+    overflow-x: hidden; /* Prevent horizontal scroll bar from box-shadows etc. */
+    transition: background-color 0.5s ease, color 0.5s ease; /* Smooth transition for body's background and text color */
+}
+
+/* Reusable Container for Centering Content */
+.container {
+    max-width: 800px; /* Adjust as per your preference for overall content width */
+    margin: 0 auto; /* Center the container horizontally */
+    padding: 0 20px; /* Add horizontal padding to prevent content touching edges on smaller screens */
+    box-sizing: border-box; /* Include padding in the element's total width */
+}
+
+.restricted-width {
+    max-width: 600px; /* Narrower width for main body paragraphs */
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* --- Top Bar Styling --- */
+.top-bar {
+    background-color: var(--background-color);
+    padding: 10px 0; /* User is okay with this padding */
+    border-bottom: 1px solid var(--border-color);
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+.top-bar-content {
+    display: flex; /* Use Flexbox for horizontal alignment */
+    justify-content: space-between; /* Space out items */
+    align-items: center; /* Vertically align items */
+    font-size: 0.9em; /* REMAINED: as per user's last feedback it was okay */
+    line-height: 1; /* Reduces extra vertical space around text and icons */
+    min-height: 0; /* IMPORTANT: Allows flex container to shrink to its content's actual height */
+}
+
+/* Aggressively reset vertical spacing for ALL direct children of top-bar-content */
+.top-bar-content > * {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    line-height: 1; /* Ensure text/icon lines are tight */
+    vertical-align: middle; /* Ensure alignment */
+}
+
+
+.top-bar-nav .nav-link,
+.top-bar-info,
+.theme-toggle,
+.search-icon {
+    color: var(--text-color);
+    text-decoration: none !important;
+    margin-left: 20px; /* Spacing between nav items, icons */
+    transition: color 0.5s ease;
+}
+
+/* Specific styling for the theme and search icon buttons */
+.theme-toggle, .search-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    font-size: 1.2em; /* RE-APPLIED: Increased icon font size to make top bar slightly larger */
+
+    /* Force buttons to be compact flex containers */
+    display: flex;
+    align-items: center; /* Vertically center the icon/content */
+    justify-content: center; /* Horizontally center the icon/content */
+    height: 1.8em; /* RE-APPLIED: Explicit height for larger top bar */
+    width: 1.8em; /* RE-APPLIED: Match width for a square button */
+    flex-shrink: 0; /* Prevent them from shrinking below this size if space is tight */
+    flex-grow: 0; /* Prevent them from growing */
+}
+
+/* --- Hero Intro Section --- */
+.hero-intro {
+    padding-top: calc(40px + 51px); /* Add header height to existing top padding */
+    padding-bottom: 20px; /* Keep existing bottom padding */
+}
+
+.hero-intro h1 {
+    font-size: 3.5em; /* Large heading */
+    color: var(--heading-color);
+    margin: 0; /* Remove default h1 margin */
+    line-height: 1.2;
+    transition: color 0.5s ease;
+
+    font-family: 'Playfair Display', serif; /* Apply Playfair Display font */
+    font-style: italic; /* Ensure it's italic */
+    font-weight: normal; /* Playfair Display italic often looks best at normal weight unless you explicitly want bold italic */
+
+}
+
+.hero-intro .pronunciation {
+    font-size: 1.1em;
+    color: var(--text-color);
+    margin-top: 10px;
+    opacity: 0.8; /* Slightly subdued */
+    transition: color 0.5s ease;
+}
+
+/* --- Profile Image Section --- */
+.profile-image-section {
+    padding: 10px 0;
+}
+
+.polaroid-frame {
+    background-color: #ffffff; /* White background for the "photo" */
+    padding: 10px 10px 30px 10px; /* Top, right, bottom (thicker), left padding */
+    display: inline-block; /* So it only takes up space needed for content */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+    transform: rotate(0deg) scale(1.02); /* Optional: slight rotation for more "real" feel */
+    transition: transform 0.3s ease; /* Smooth hover effect */
+
+    max-width: 300px;
+}
+
+.polaroid-frame:hover {
+    transform: rotate(-2deg); /* Straighten and slightly enlarge on hover */
+}
+
+.profile-img {
+    display: block; /* Remove extra space below image */
+    max-width: 100%; /* Ensure image scales down on smaller screens */
+    height: auto;
+    /* Optional: filter to match the image style in the example */
+    filter: grayscale(10%) contrast(110%);
+}
+
+/* --- About Me Section --- */
+.about-me-section {
+    padding: 0px 0 100px; /* Adjust padding as needed */
+}
+
+.about-me-section p {
+    font-size: 1.1em;
+    margin-bottom: 1em; /* Space between paragraphs */
+}
+
+.about-me-section .inline-link {
+    color: var(--link-color);
+    text-decoration: none; /* Default underline */
+    text-underline-offset: 4px; /* Space between text and underline */
+    transition: color 0.5s ease, text-decoration-color 0.3s ease;
+}
+
+.about-me-section .inline-link:hover {
+    color: var(--heading-color); /* Change color on hover */
+    text-decoration: none;
+    text-decoration-color: var(--heading-color); /* Underline color also changes */
+}
+
+.about-me-section .container.restricted-width{
+    text-align: left; /* Default text align for columns */
+}
+
+.about-columns {
+    display: flex; /* Makes the child elements (columns) flex items */
+    gap: 30px; /* Space between the two columns */
+    align-items: flex-start; /* Aligns items to the top if they have different heights */
+    justify-content: flex-end; /* Pushes content to the right side of the main flex container */
+    max-width: 500px; /* Adjust this to control the overall width of the two columns combined */
+    margin: 0 auto; /* Center the two-column block */
+}
+
+.about-left-column {
+    flex-basis: 100%; /* Takes up 70% of the available space */
+}
+
+.about-right-column {
+    flex-basis: 10%; /* Takes up 30% of the available space */
+    border-left: 1px solid var(--border-color); /* Minimal separator line */
+    padding-left: 30px; /* Space between the line and the icons */
+    display: flex; /* Make icons stack vertically */
+    flex-direction: column; /* Stack icons vertically */
+    align-items: center; /* Center icons horizontally within their column */
+    gap: 15px; /* Space between icons */
+}
+
+.social-icon {
+    font-size: 1.8em; /* Adjust icon size */
+    color: var(--text-color);
+    transition: color 0.5s ease;
+}
+
+.social-icon:hover {
+    color: var(--link-color);
+}
+
+/* Work Showcase Section */
+.work-showcase-section {
+    padding: 80px 0; /* Vertical spacing for the section */
+    background-color: var(--background-color); /* CHANGED: Reverted to main background color */
+    color: var(--text-color);
+}
+
+.work-showcase-section .section-title {
+    margin-bottom: 60px; /* Space below the section title */
+    font-size: 2.5rem;
+    color: var(--heading-color);
+}
+
+/* Layout for individual work entries (two columns) */
+.work-entry-row {
+    display: flex;
+    flex-wrap: wrap; /* Allows columns to wrap to a single column on smaller screens */
+    align-items: center; /* Vertically align content in columns */
+    gap: 40px; /* Space between the image and text columns */
+    margin-bottom: 80px; /* Space between different work entries */
+    justify-content: center; /* Center the columns if their combined width is less than the container */
+}
+
+.work-entry-row:last-child {
+    margin-bottom: 0; /* No bottom margin after the very last entry */
+}
+
+/* Styling for each column */
+.work-image-column {
+    flex: 2; /* MODIFIED: Image column takes 2 parts of available space */
+    min-width: 350px; /* MODIFIED: Ensures it doesn't get too small before wrapping */
+}
+
+.work-details-column {
+    flex: 1; /* MODIFIED: Text column takes 1 part of available space */
+    min-width: 300px; /* Ensures text is readable */
+}
+
+.work-image-column img,
+.work-image-column video { /* Ensure video is included here */
+    max-width: 100%;
+    height: auto;
+    display: block; /* Removes extra space below the image */
+    border-radius: 8px; /* Slightly rounded corners for images */
+    box-shadow: var(--shadow-small); /* Add a subtle shadow */
+    object-fit: cover; /* Ensures video covers the area without distortion */
+}
+
+.work-details-column h3 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: var(--heading-color);
+}
+
+.work-details-column p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* Style for the "View Project" button */
+.work-details-column .btn {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: var(--primary-color);
+    color: var(--button-text-color);
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.work-details-column .btn:hover {
+    background-color: var(--primary-color-hover);
+}
+
+/* Optional: Reverse order for alternating layouts (image on right, text on left) */
+.work-entry-row.reversed {
+    flex-direction: row-reverse; /* Swaps the order of columns */
+}
+
+/* --- Media Queries for Responsiveness --- */
+@media (max-width: 768px) {
+    .hero-intro h1 {
+        font-size: 2.5em; /* Make heading smaller on smaller screens */
+    }
+
+    .polaroid-frame {
+        transform: none; /* Remove rotation on smaller screens for better fit */
+    }
+    .about-columns {
+        flex-direction: column; /* Stack columns vertically on smaller screens */
+        gap: 20px; /* Adjust gap for vertical stacking */
+        max-width: 100%; /* Let it take full container width */
+        justify-content: center; /* Center the stacked columns if they have less width than parent */
+    }
+
+    .about-left-column,
+    .about-right-column {
+        flex-basis: auto; /* Reset flex-basis when stacked */
+        border-left: none; /* Remove vertical line when stacked */
+        padding-left: 0; /* Remove padding when stacked */
+        text-align: center; /* Center content when stacked */
+    }
+
+    .about-right-column {
+        flex-direction: row; /* Make icons horizontal when stacked */
+        justify-content: center; /* Center icons horizontally */
+    }
+
+    .work-entry-row {
+        flex-direction: column; /* Stack columns vertically on smaller screens */
+        text-align: center; /* Center align text when stacked */
+        gap: 10px; /* As provided in your latest code for 768px breakpoint */
+    }
+
+    .work-entry-row.reversed {
+        flex-direction: column; /* Ensure reversed rows also stack correctly */
+    }
+
+    .work-image-column,
+    .work-details-column {
+        flex: 0 0 100%; /* MODIFIED: Make them take full width when stacked */
+        min-width: unset; /* Remove minimum width when stacking */
+    }
+
+    .work-showcase-section .section-title {
+        font-size: 2rem;
+        margin-bottom: 40px;
+    }
+}
+
+@media (max-width: 440px) { /* CHANGED: From 480px to 440px as per your request */
+    .container {
+        padding: 0 15px; /* Reduce horizontal padding on very small screens */
+    }
+
+    .top-bar-content {
+        min-height: unset; /* Ensure it doesn't get stuck with a min-height from desktop if it's ever applied */
+    }
+    
+    /* Aggressive reset for children on mobile too */
+    .top-bar-content > * {
+        margin-top: 0;
+        margin-bottom: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        line-height: 1;
+        vertical-align: middle;
+    }
+
+    .top-bar-nav, .top-bar-search {
+        margin-left: 0; /* Remove left margin when stacked */
+    }
+
+    .theme-toggle, .search-icon {
+        height: 2em; /* RE-APPLIED: Larger touch target for mobile icons */
+        width: 2em; /* RE-APPLIED: Larger touch target for mobile icons */
+    }
+
+    .hero-intro {
+        padding: 60px 0 30px;
+    }
+
+    .hero-intro h1 {
+        font-size: 2em;
+    }
+
+    .polaroid-frame {
+        padding: 8px 8px 25px 8px; /* Adjust polaroid padding */
+    }
+
+    .about-me-section {
+        padding: 30px 0 60px;
+    }
+    
+    .work-details-column h3 {
+        font-size: 1.6rem;
+    }
+    .work-details-column p {
+        font-size: 1.1rem;
+    }
+    .work-details-column .btn {
+        padding: 10px 20px;
+    }
+    .work-entry-row {
+        flex-direction: column; /* This rule should already be here */
+        text-align: center; /* This rule should already be here */
+        gap: 10px; /* As provided in your latest code for 480px (now 440px) breakpoint */
+    }
+}
